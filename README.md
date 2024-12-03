@@ -1,5 +1,5 @@
 # blind75-python
-Blind 75 problem with solutions in single file
+Blind 75 problems with solution in single file
 
 
 ## Array and Maps
@@ -393,158 +393,180 @@ class Solution:
 ```
 
 
-### 3. [Leetcode 1](https://leetcode.com/problems/two-sum/description/) : Two Sum
+## Two Pointers
+
+
+### 9. [Leetcode 125](https://leetcode.com/problems/valid-palindrome/description/) : Valid Palindrome
 <pre>
-Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
+A phrase is a palindrome if, after converting all uppercase letters into lowercase letters and removing all non-alphanumeric characters, it reads the same forward and backward. Alphanumeric characters include letters and numbers.
 
-You may assume that each input would have exactly one solution, and you may not use the same element twice.
+Given a string s, return true if it is a palindrome, or false otherwise.
 
-You can return the answer in any order.
-
+ 
 
 Example 1:
 
-Input: nums = [2,7,11,15], target = 9
-Output: [0,1]
-Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
-
+Input: s = "A man, a plan, a canal: Panama"
+Output: true
+Explanation: "amanaplanacanalpanama" is a palindrome.
 Example 2:
 
-Input: nums = [3,2,4], target = 6
-Output: [1,2]
+Input: s = "race a car"
+Output: false
+Explanation: "raceacar" is not a palindrome.
 Example 3:
 
-Input: nums = [3,3], target = 6
-Output: [0,1]
+Input: s = " "
+Output: true
+Explanation: s is an empty string "" after removing non-alphanumeric characters.
+Since an empty string reads the same forward and backward, it is a palindrome.
  
 
 Constraints:
 
-2 <= nums.length <= 104
--109 <= nums[i] <= 109
--109 <= target <= 109
-Only one valid answer exists.
- 
-
-Follow-up: Can you come up with an algorithm that is less than O(n2) time complexity? 
+1 <= s.length <= 2 * 105
+s consists only of printable ASCII characters. 
 </pre>
 
 Solution:
 
 ```python
 class Solution:
-    def twoSum(self, nums: List[int], target: int) -> List[int]:
-        _dict = {}
-        for i in range(len(nums)):
-            num = nums[i]
-            if num in _dict:
-                return [_dict[num], i]
-            _dict[target-num] = i
-        return []
+    def isPalindrome(self, s: str) -> bool:
+        s = s.lower()
+        i = 0
+        j = len(s) - 1
+        while i < j:
+            if not s[i].isalnum():
+                i += 1
+                continue
+            if not s[j].isalnum():
+                j -= 1
+                continue
+            if s[i] != s[j]:
+                return False
+            i += 1
+            j -= 1
+        return True
 ```
 
 
-### 3. [Leetcode 1](https://leetcode.com/problems/two-sum/description/) : Two Sum
+### 10. [Leetcode 15](https://leetcode.com/problems/3sum/description/) : 3Sum
 <pre>
-Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
+Given an integer array nums, return all the triplets [nums[i], nums[j], nums[k]] such that i != j, i != k, and j != k, and nums[i] + nums[j] + nums[k] == 0.
 
-You may assume that each input would have exactly one solution, and you may not use the same element twice.
+Notice that the solution set must not contain duplicate triplets.
 
-You can return the answer in any order.
-
+ 
 
 Example 1:
 
-Input: nums = [2,7,11,15], target = 9
-Output: [0,1]
-Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
-
+Input: nums = [-1,0,1,2,-1,-4]
+Output: [[-1,-1,2],[-1,0,1]]
+Explanation: 
+nums[0] + nums[1] + nums[2] = (-1) + 0 + 1 = 0.
+nums[1] + nums[2] + nums[4] = 0 + 1 + (-1) = 0.
+nums[0] + nums[3] + nums[4] = (-1) + 2 + (-1) = 0.
+The distinct triplets are [-1,0,1] and [-1,-1,2].
+Notice that the order of the output and the order of the triplets does not matter.
 Example 2:
 
-Input: nums = [3,2,4], target = 6
-Output: [1,2]
+Input: nums = [0,1,1]
+Output: []
+Explanation: The only possible triplet does not sum up to 0.
 Example 3:
 
-Input: nums = [3,3], target = 6
-Output: [0,1]
+Input: nums = [0,0,0]
+Output: [[0,0,0]]
+Explanation: The only possible triplet sums up to 0.
  
 
 Constraints:
 
-2 <= nums.length <= 104
--109 <= nums[i] <= 109
--109 <= target <= 109
-Only one valid answer exists.
- 
-
-Follow-up: Can you come up with an algorithm that is less than O(n2) time complexity? 
+3 <= nums.length <= 3000
+-105 <= nums[i] <= 105
 </pre>
 
 Solution:
 
 ```python
 class Solution:
-    def twoSum(self, nums: List[int], target: int) -> List[int]:
-        _dict = {}
-        for i in range(len(nums)):
-            num = nums[i]
-            if num in _dict:
-                return [_dict[num], i]
-            _dict[target-num] = i
-        return []
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
+        nums = sorted(nums)
+        _len = len(nums)
+        if _len < 3:
+            return []
+        res = []
+        for i in range(_len):
+            if i > 0 and nums[i] == nums[i-1]:
+                continue
+            j = i + 1
+            k = _len - 1
+            while j < k :
+                while nums[i] + nums[j] + nums[k] > 0 and k > j:
+                    k -= 1
+                while nums[i] + nums[j] + nums[k] < 0 and k > j:
+                    j += 1
+                if nums[i] + nums[j] + nums[k] == 0 and i < j < k:
+                    res.append([nums[i], nums[j], nums[k]])
+                    j += 1
+                    while nums[j] == nums[j-1] and j < k:
+                        j += 1
+        return res
 ```
 
 
-### 3. [Leetcode 1](https://leetcode.com/problems/two-sum/description/) : Two Sum
+### 11. [Leetcode 11](https://leetcode.com/problems/container-with-most-water/description/) : Container With Most Water
 <pre>
-Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
+You are given an integer array height of length n. There are n vertical lines drawn such that the two endpoints of the ith line are (i, 0) and (i, height[i]).
 
-You may assume that each input would have exactly one solution, and you may not use the same element twice.
+Find two lines that together with the x-axis form a container, such that the container contains the most water.
 
-You can return the answer in any order.
+Return the maximum amount of water a container can store.
 
+Notice that you may not slant the container.
+
+ 
 
 Example 1:
 
-Input: nums = [2,7,11,15], target = 9
-Output: [0,1]
-Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
 
+Input: height = [1,8,6,2,5,4,8,3,7]
+Output: 49
+Explanation: The above vertical lines are represented by array [1,8,6,2,5,4,8,3,7]. In this case, the max area of water (blue section) the container can contain is 49.
 Example 2:
 
-Input: nums = [3,2,4], target = 6
-Output: [1,2]
-Example 3:
-
-Input: nums = [3,3], target = 6
-Output: [0,1]
+Input: height = [1,1]
+Output: 1
  
 
 Constraints:
 
-2 <= nums.length <= 104
--109 <= nums[i] <= 109
--109 <= target <= 109
-Only one valid answer exists.
- 
-
-Follow-up: Can you come up with an algorithm that is less than O(n2) time complexity? 
+n == height.length
+2 <= n <= 105
+0 <= height[i] <= 104
 </pre>
 
 Solution:
 
 ```python
 class Solution:
-    def twoSum(self, nums: List[int], target: int) -> List[int]:
-        _dict = {}
-        for i in range(len(nums)):
-            num = nums[i]
-            if num in _dict:
-                return [_dict[num], i]
-            _dict[target-num] = i
-        return []
+    def maxArea(self, height: List[int]) -> int:
+        _max = 0
+        l = 0
+        r = len(height) - 1
+        while l < r:
+            if height[l] <= height[r]:
+                _max = max(_max, (height[l] * (r-l)))
+                l += 1
+            else:
+                _max = max(_max, (height[r] * (r-l)))
+                r -= 1
+        return _max
+                
 ```
 
+## Sliding Window
 
 ### 3. [Leetcode 1](https://leetcode.com/problems/two-sum/description/) : Two Sum
 <pre>
