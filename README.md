@@ -568,613 +568,1237 @@ class Solution:
 
 ## Sliding Window
 
-### 3. [Leetcode 1](https://leetcode.com/problems/two-sum/description/) : Two Sum
+### 12. [Leetcode 121](https://leetcode.com/problems/best-time-to-buy-and-sell-stock/description/) : Best Time to Buy and Sell Stock
 <pre>
-Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
+You are given an array prices where prices[i] is the price of a given stock on the ith day.
 
-You may assume that each input would have exactly one solution, and you may not use the same element twice.
+You want to maximize your profit by choosing a single day to buy one stock and choosing a different day in the future to sell that stock.
 
-You can return the answer in any order.
+Return the maximum profit you can achieve from this transaction. If you cannot achieve any profit, return 0.
 
+ 
 
 Example 1:
 
-Input: nums = [2,7,11,15], target = 9
-Output: [0,1]
-Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
-
+Input: prices = [7,1,5,3,6,4]
+Output: 5
+Explanation: Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5.
+Note that buying on day 2 and selling on day 1 is not allowed because you must buy before you sell.
 Example 2:
 
-Input: nums = [3,2,4], target = 6
-Output: [1,2]
-Example 3:
-
-Input: nums = [3,3], target = 6
-Output: [0,1]
+Input: prices = [7,6,4,3,1]
+Output: 0
+Explanation: In this case, no transactions are done and the max profit = 0.
  
 
 Constraints:
 
-2 <= nums.length <= 104
--109 <= nums[i] <= 109
--109 <= target <= 109
-Only one valid answer exists.
- 
-
-Follow-up: Can you come up with an algorithm that is less than O(n2) time complexity? 
+1 <= prices.length <= 105
+0 <= prices[i] <= 104 
 </pre>
 
 Solution:
 
 ```python
 class Solution:
-    def twoSum(self, nums: List[int], target: int) -> List[int]:
-        _dict = {}
-        for i in range(len(nums)):
-            num = nums[i]
-            if num in _dict:
-                return [_dict[num], i]
-            _dict[target-num] = i
-        return []
+    def maxProfit(self, prices: List[int]) -> int:
+        left, right = 0, 0
+        res = 0
+        while right < len(prices):
+            res = max(res, prices[right] - prices[left])
+            if prices[right] < prices[left]:
+                left = right
+            right += 1
+        return res
 ```
 
 
-### 3. [Leetcode 1](https://leetcode.com/problems/two-sum/description/) : Two Sum
+### 13. [Leetcode 3](https://leetcode.com/problems/longest-substring-without-repeating-characters/description/) : Longest Substring Without Repeating Characters
 <pre>
-Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
+Given a string s, find the length of the longest 
+substring
+ without repeating characters.
 
-You may assume that each input would have exactly one solution, and you may not use the same element twice.
-
-You can return the answer in any order.
-
+ 
 
 Example 1:
 
-Input: nums = [2,7,11,15], target = 9
-Output: [0,1]
-Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
-
+Input: s = "abcabcbb"
+Output: 3
+Explanation: The answer is "abc", with the length of 3.
 Example 2:
 
-Input: nums = [3,2,4], target = 6
-Output: [1,2]
+Input: s = "bbbbb"
+Output: 1
+Explanation: The answer is "b", with the length of 1.
 Example 3:
 
-Input: nums = [3,3], target = 6
-Output: [0,1]
+Input: s = "pwwkew"
+Output: 3
+Explanation: The answer is "wke", with the length of 3.
+Notice that the answer must be a substring, "pwke" is a subsequence and not a substring.
  
 
 Constraints:
 
-2 <= nums.length <= 104
--109 <= nums[i] <= 109
--109 <= target <= 109
-Only one valid answer exists.
- 
-
-Follow-up: Can you come up with an algorithm that is less than O(n2) time complexity? 
+0 <= s.length <= 5 * 104
+s consists of English letters, digits, symbols and spaces. 
 </pre>
 
 Solution:
 
 ```python
 class Solution:
-    def twoSum(self, nums: List[int], target: int) -> List[int]:
-        _dict = {}
-        for i in range(len(nums)):
-            num = nums[i]
-            if num in _dict:
-                return [_dict[num], i]
-            _dict[target-num] = i
-        return []
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        memo = set()
+        left, right, res = 0, 0, 0
+        while right < len(s):
+            ch = s[right]
+            while ch in memo:
+                memo.remove(s[left])
+                left += 1
+            memo.add(ch)
+            right += 1
+            res = max(res, right-left)
+        return res
 ```
 
 
-### 3. [Leetcode 1](https://leetcode.com/problems/two-sum/description/) : Two Sum
+### 14. [Leetcode 424](https://leetcode.com/problems/longest-repeating-character-replacement/description/) : Longest Repeating Character Replacement
 <pre>
-Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
+You are given a string s and an integer k. You can choose any character of the string and change it to any other uppercase English character. You can perform this operation at most k times.
 
-You may assume that each input would have exactly one solution, and you may not use the same element twice.
+Return the length of the longest substring containing the same letter you can get after performing the above operations.
 
-You can return the answer in any order.
-
+ 
 
 Example 1:
 
-Input: nums = [2,7,11,15], target = 9
-Output: [0,1]
-Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
-
+Input: s = "ABAB", k = 2
+Output: 4
+Explanation: Replace the two 'A's with two 'B's or vice versa.
 Example 2:
 
-Input: nums = [3,2,4], target = 6
-Output: [1,2]
-Example 3:
-
-Input: nums = [3,3], target = 6
-Output: [0,1]
+Input: s = "AABABBA", k = 1
+Output: 4
+Explanation: Replace the one 'A' in the middle with 'B' and form "AABBBBA".
+The substring "BBBB" has the longest repeating letters, which is 4.
+There may exists other ways to achieve this answer too.
  
 
 Constraints:
 
-2 <= nums.length <= 104
--109 <= nums[i] <= 109
--109 <= target <= 109
-Only one valid answer exists.
- 
-
-Follow-up: Can you come up with an algorithm that is less than O(n2) time complexity? 
+1 <= s.length <= 105
+s consists of only uppercase English letters.
+0 <= k <= s.length
 </pre>
 
 Solution:
 
 ```python
 class Solution:
-    def twoSum(self, nums: List[int], target: int) -> List[int]:
+    def characterReplacement(self, s: str, k: int) -> int:
+        l = 0
+        res = 0
         _dict = {}
-        for i in range(len(nums)):
-            num = nums[i]
-            if num in _dict:
-                return [_dict[num], i]
-            _dict[target-num] = i
-        return []
+        for r in range(len(s)):
+            _dict[s[r]] = 1 + _dict.get(s[r], 0) 
+            while (r - l + 1) - max(_dict.values()) > k:
+                _dict[s[l]] -= 1
+                l +=1
+            res = max(res, (r - l + 1))
+        return res
+
 ```
 
 
-### 3. [Leetcode 1](https://leetcode.com/problems/two-sum/description/) : Two Sum
+### 15. [Leetcode 76](https://leetcode.com/problems/minimum-window-substring/description/) : Minimum Window Substring
 <pre>
-Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
+Given two strings s and t of lengths m and n respectively, return the minimum window 
+substring
+ of s such that every character in t (including duplicates) is included in the window. If there is no such substring, return the empty string "".
 
-You may assume that each input would have exactly one solution, and you may not use the same element twice.
+The testcases will be generated such that the answer is unique.
 
-You can return the answer in any order.
-
+ 
 
 Example 1:
 
-Input: nums = [2,7,11,15], target = 9
-Output: [0,1]
-Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
-
+Input: s = "ADOBECODEBANC", t = "ABC"
+Output: "BANC"
+Explanation: The minimum window substring "BANC" includes 'A', 'B', and 'C' from string t.
 Example 2:
 
-Input: nums = [3,2,4], target = 6
-Output: [1,2]
+Input: s = "a", t = "a"
+Output: "a"
+Explanation: The entire string s is the minimum window.
 Example 3:
 
-Input: nums = [3,3], target = 6
-Output: [0,1]
+Input: s = "a", t = "aa"
+Output: ""
+Explanation: Both 'a's from t must be included in the window.
+Since the largest window of s only has one 'a', return empty string.
  
 
 Constraints:
 
-2 <= nums.length <= 104
--109 <= nums[i] <= 109
--109 <= target <= 109
-Only one valid answer exists.
+m == s.length
+n == t.length
+1 <= m, n <= 105
+s and t consist of uppercase and lowercase English letters.
  
 
-Follow-up: Can you come up with an algorithm that is less than O(n2) time complexity? 
+Follow up: Could you find an algorithm that runs in O(m + n) time? 
 </pre>
 
 Solution:
 
 ```python
 class Solution:
-    def twoSum(self, nums: List[int], target: int) -> List[int]:
-        _dict = {}
-        for i in range(len(nums)):
-            num = nums[i]
-            if num in _dict:
-                return [_dict[num], i]
-            _dict[target-num] = i
-        return []
+    def minWindow(self, s: str, t: str) -> str:
+        t_map = {}
+        s_map = {}
+        for ch in t:
+            t_map[ch] = 1 + t_map.get(ch, 0)
+            s_map[ch] = 0
+        need, have = len(t_map), 0
+        left = 0
+        res = ""
+        for right in range(len(s)):
+            ch = s[right]
+            if ch not in s_map:
+                continue
+            s_map[ch] = 1 + s_map[ch]
+            if s_map[ch] == t_map[ch]:
+                have += 1
+            while have == need:
+                while s[left] not in s_map:
+                    left += 1
+                if res == "" or (right - left + 1) < len(res):
+                    res = s[left:right+1]
+                s_map[s[left]] -= 1
+                if s_map[s[left]] < t_map[s[left]]:
+                    have -= 1
+                left += 1
+        return res
 ```
 
+## Stack
 
-### 3. [Leetcode 1](https://leetcode.com/problems/two-sum/description/) : Two Sum
+### 16. [Leetcode 20](https://leetcode.com/problems/valid-parentheses/description/) : Valid Parentheses
 <pre>
-Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
+Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.
 
-You may assume that each input would have exactly one solution, and you may not use the same element twice.
+An input string is valid if:
 
-You can return the answer in any order.
-
+Open brackets must be closed by the same type of brackets.
+Open brackets must be closed in the correct order.
+Every close bracket has a corresponding open bracket of the same type.
+ 
 
 Example 1:
-
-Input: nums = [2,7,11,15], target = 9
-Output: [0,1]
-Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
+Input: s = "()"
+Output: true
 
 Example 2:
+Input: s = "()[]{}"
+Output: true
 
-Input: nums = [3,2,4], target = 6
-Output: [1,2]
 Example 3:
+Input: s = "(]"
+Output: false
 
-Input: nums = [3,3], target = 6
-Output: [0,1]
- 
+Example 4:
+Input: s = "([])"
+Output: true
+
 
 Constraints:
 
-2 <= nums.length <= 104
--109 <= nums[i] <= 109
--109 <= target <= 109
-Only one valid answer exists.
- 
-
-Follow-up: Can you come up with an algorithm that is less than O(n2) time complexity? 
+1 <= s.length <= 104
+s consists of parentheses only '()[]{}'.
 </pre>
 
 Solution:
 
 ```python
 class Solution:
-    def twoSum(self, nums: List[int], target: int) -> List[int]:
-        _dict = {}
-        for i in range(len(nums)):
-            num = nums[i]
-            if num in _dict:
-                return [_dict[num], i]
-            _dict[target-num] = i
-        return []
+    def isValid(self, s: str) -> bool:
+        _list = []
+        for ch in s:
+            if ch == ')' and (len(_list) == 0 or _list.pop() != '('):
+                return False
+            elif ch == '}' and (len(_list) == 0 or _list.pop() != '{'):
+                return False
+            elif ch == ']' and (len(_list) == 0 or _list.pop() != '['):
+                return False
+            elif ch == '(' or ch == '{' or ch == '[':
+                _list.append(ch)
+        return len(_list) == 0
 ```
 
+## Binary Search
 
-### 3. [Leetcode 1](https://leetcode.com/problems/two-sum/description/) : Two Sum
+
+### 17. [Leetcode 153](https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/description/) : Find Minimum in Rotated Sorted Array
 <pre>
-Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
+Suppose an array of length n sorted in ascending order is rotated between 1 and n times. For example, the array nums = [0,1,2,4,5,6,7] might become:
 
-You may assume that each input would have exactly one solution, and you may not use the same element twice.
+[4,5,6,7,0,1,2] if it was rotated 4 times.
+[0,1,2,4,5,6,7] if it was rotated 7 times.
+Notice that rotating an array [a[0], a[1], a[2], ..., a[n-1]] 1 time results in the array [a[n-1], a[0], a[1], a[2], ..., a[n-2]].
 
-You can return the answer in any order.
+Given the sorted rotated array nums of unique elements, return the minimum element of this array.
 
+You must write an algorithm that runs in O(log n) time.
+
+ 
 
 Example 1:
 
-Input: nums = [2,7,11,15], target = 9
-Output: [0,1]
-Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
-
+Input: nums = [3,4,5,1,2]
+Output: 1
+Explanation: The original array was [1,2,3,4,5] rotated 3 times.
 Example 2:
 
-Input: nums = [3,2,4], target = 6
-Output: [1,2]
+Input: nums = [4,5,6,7,0,1,2]
+Output: 0
+Explanation: The original array was [0,1,2,4,5,6,7] and it was rotated 4 times.
 Example 3:
 
-Input: nums = [3,3], target = 6
-Output: [0,1]
+Input: nums = [11,13,15,17]
+Output: 11
+Explanation: The original array was [11,13,15,17] and it was rotated 4 times. 
  
 
 Constraints:
 
-2 <= nums.length <= 104
--109 <= nums[i] <= 109
--109 <= target <= 109
-Only one valid answer exists.
- 
-
-Follow-up: Can you come up with an algorithm that is less than O(n2) time complexity? 
+n == nums.length
+1 <= n <= 5000
+-5000 <= nums[i] <= 5000
+All the integers of nums are unique.
+nums is sorted and rotated between 1 and n times. 
 </pre>
 
 Solution:
 
 ```python
 class Solution:
-    def twoSum(self, nums: List[int], target: int) -> List[int]:
-        _dict = {}
-        for i in range(len(nums)):
-            num = nums[i]
-            if num in _dict:
-                return [_dict[num], i]
-            _dict[target-num] = i
-        return []
+    def findMin(self, nums: List[int]) -> int:
+        l= 0
+        r = len(nums)-1
+        res = nums[l]
+        while l <= r:
+            if nums[l] > nums[r]:
+                res = min(res, nums[r])
+                l += 1
+            else:
+                res = min(res, nums[l])
+                r -= 1
+        return res
 ```
 
 
-### 3. [Leetcode 1](https://leetcode.com/problems/two-sum/description/) : Two Sum
+### 18. [Leetcode 33](https://leetcode.com/problems/search-in-rotated-sorted-array/description/) : Search in Rotated Sorted Array
 <pre>
-Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
+There is an integer array nums sorted in ascending order (with distinct values).
 
-You may assume that each input would have exactly one solution, and you may not use the same element twice.
+Prior to being passed to your function, nums is possibly rotated at an unknown pivot index k (1 <= k < nums.length) such that the resulting array is [nums[k], nums[k+1], ..., nums[n-1], nums[0], nums[1], ..., nums[k-1]] (0-indexed). For example, [0,1,2,4,5,6,7] might be rotated at pivot index 3 and become [4,5,6,7,0,1,2].
 
-You can return the answer in any order.
+Given the array nums after the possible rotation and an integer target, return the index of target if it is in nums, or -1 if it is not in nums.
 
+You must write an algorithm with O(log n) runtime complexity.
+
+ 
 
 Example 1:
 
-Input: nums = [2,7,11,15], target = 9
-Output: [0,1]
-Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
-
+Input: nums = [4,5,6,7,0,1,2], target = 0
+Output: 4
 Example 2:
 
-Input: nums = [3,2,4], target = 6
-Output: [1,2]
+Input: nums = [4,5,6,7,0,1,2], target = 3
+Output: -1
 Example 3:
 
-Input: nums = [3,3], target = 6
-Output: [0,1]
+Input: nums = [1], target = 0
+Output: -1
  
 
 Constraints:
 
-2 <= nums.length <= 104
--109 <= nums[i] <= 109
--109 <= target <= 109
-Only one valid answer exists.
- 
-
-Follow-up: Can you come up with an algorithm that is less than O(n2) time complexity? 
+1 <= nums.length <= 5000
+-104 <= nums[i] <= 104
+All values of nums are unique.
+nums is an ascending array that is possibly rotated.
+-104 <= target <= 104
 </pre>
 
 Solution:
 
 ```python
 class Solution:
-    def twoSum(self, nums: List[int], target: int) -> List[int]:
-        _dict = {}
-        for i in range(len(nums)):
-            num = nums[i]
-            if num in _dict:
-                return [_dict[num], i]
-            _dict[target-num] = i
-        return []
+    def search(self, nums: List[int], target: int) -> int:
+        l = 0
+        r = len(nums) - 1
+        while l <= r:
+            mid = l + ((r-l) // 2)
+            if target == nums[mid]:
+                return mid
+            if  nums[l] <= nums[mid]:
+                if target < nums[l] or target > nums[mid]:
+                    l = mid + 1
+                else:
+                    r = mid - 1
+            else:
+                if target > nums[r] or target < nums[mid]:
+                    r = mid - 1
+                else:
+                    l = mid + 1
+        return -1
 ```
 
+## Linked List
 
-### 3. [Leetcode 1](https://leetcode.com/problems/two-sum/description/) : Two Sum
+### 19. [Leetcode 206](https://leetcode.com/problems/reverse-linked-list/description/) : Reverse Linked List
 <pre>
-Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
+Given the head of a singly linked list, reverse the list, and return the reversed list.
 
-You may assume that each input would have exactly one solution, and you may not use the same element twice.
-
-You can return the answer in any order.
-
+ 
 
 Example 1:
 
-Input: nums = [2,7,11,15], target = 9
-Output: [0,1]
-Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
 
+Input: head = [1,2,3,4,5]
+Output: [5,4,3,2,1]
 Example 2:
 
-Input: nums = [3,2,4], target = 6
-Output: [1,2]
+
+Input: head = [1,2]
+Output: [2,1]
 Example 3:
 
-Input: nums = [3,3], target = 6
-Output: [0,1]
+Input: head = []
+Output: []
  
 
 Constraints:
 
-2 <= nums.length <= 104
--109 <= nums[i] <= 109
--109 <= target <= 109
-Only one valid answer exists.
+The number of nodes in the list is the range [0, 5000].
+-5000 <= Node.val <= 5000
  
 
-Follow-up: Can you come up with an algorithm that is less than O(n2) time complexity? 
+Follow up: A linked list can be reversed either iteratively or recursively. Could you implement both? 
 </pre>
 
 Solution:
 
 ```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
 class Solution:
-    def twoSum(self, nums: List[int], target: int) -> List[int]:
-        _dict = {}
-        for i in range(len(nums)):
-            num = nums[i]
-            if num in _dict:
-                return [_dict[num], i]
-            _dict[target-num] = i
-        return []
+    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        # iterative method
+        # prev, curr = None, head
+        # while curr:
+        #     nxt = curr.next
+        #     curr.next = prev
+        #     prev = curr
+        #     curr = nxt
+        # return prev
+
+        # recursion
+        if head == None or head.next == None:
+            return head
+        newHead = self.reverseList(head.next)
+        head.next.next = head
+        head.next = None
+        return newHead
 ```
 
 
-### 3. [Leetcode 1](https://leetcode.com/problems/two-sum/description/) : Two Sum
+### 20. [Leetcode 21](https://leetcode.com/problems/merge-two-sorted-lists/description/) : Merge Two Sorted Lists
 <pre>
-Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
+You are given the heads of two sorted linked lists list1 and list2.
 
-You may assume that each input would have exactly one solution, and you may not use the same element twice.
+Merge the two lists into one sorted list. The list should be made by splicing together the nodes of the first two lists.
 
-You can return the answer in any order.
+Return the head of the merged linked list.
 
+ 
 
 Example 1:
 
-Input: nums = [2,7,11,15], target = 9
-Output: [0,1]
-Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
 
+Input: list1 = [1,2,4], list2 = [1,3,4]
+Output: [1,1,2,3,4,4]
 Example 2:
 
-Input: nums = [3,2,4], target = 6
-Output: [1,2]
+Input: list1 = [], list2 = []
+Output: []
 Example 3:
 
-Input: nums = [3,3], target = 6
-Output: [0,1]
+Input: list1 = [], list2 = [0]
+Output: [0]
  
 
 Constraints:
 
-2 <= nums.length <= 104
--109 <= nums[i] <= 109
--109 <= target <= 109
-Only one valid answer exists.
- 
-
-Follow-up: Can you come up with an algorithm that is less than O(n2) time complexity? 
+The number of nodes in both lists is in the range [0, 50].
+-100 <= Node.val <= 100
+Both list1 and list2 are sorted in non-decreasing order.
 </pre>
 
 Solution:
 
 ```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
 class Solution:
-    def twoSum(self, nums: List[int], target: int) -> List[int]:
-        _dict = {}
-        for i in range(len(nums)):
-            num = nums[i]
-            if num in _dict:
-                return [_dict[num], i]
-            _dict[target-num] = i
-        return []
+    def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
+        list3 = ListNode()
+        tail = list3
+        while list1 and list2:
+            if list1.val <= list2.val:
+                tail.next = list1
+                list1 = list1.next
+            else:
+                tail.next = list2
+                list2 = list2.next
+            tail = tail.next
+        if list1:
+            tail.next = list1
+        if list2:
+            tail.next = list2
+        return list3.next
 ```
 
 
-### 3. [Leetcode 1](https://leetcode.com/problems/two-sum/description/) : Two Sum
+### 21. [Leetcode 143](https://leetcode.com/problems/reorder-list/description/) : Reorder List
 <pre>
-Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
+You are given the head of a singly linked-list. The list can be represented as:
 
-You may assume that each input would have exactly one solution, and you may not use the same element twice.
+L0 → L1 → … → Ln - 1 → Ln
+Reorder the list to be on the following form:
 
-You can return the answer in any order.
+L0 → Ln → L1 → Ln - 1 → L2 → Ln - 2 → …
+You may not modify the values in the list's nodes. Only nodes themselves may be changed.
 
+ 
 
 Example 1:
 
-Input: nums = [2,7,11,15], target = 9
-Output: [0,1]
-Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
 
+Input: head = [1,2,3,4]
+Output: [1,4,2,3]
 Example 2:
 
-Input: nums = [3,2,4], target = 6
-Output: [1,2]
-Example 3:
 
-Input: nums = [3,3], target = 6
-Output: [0,1]
+Input: head = [1,2,3,4,5]
+Output: [1,5,2,4,3]
  
 
 Constraints:
 
-2 <= nums.length <= 104
--109 <= nums[i] <= 109
--109 <= target <= 109
-Only one valid answer exists.
- 
-
-Follow-up: Can you come up with an algorithm that is less than O(n2) time complexity? 
+The number of nodes in the list is in the range [1, 5 * 104].
+1 <= Node.val <= 1000
 </pre>
 
 Solution:
 
 ```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
 class Solution:
-    def twoSum(self, nums: List[int], target: int) -> List[int]:
-        _dict = {}
-        for i in range(len(nums)):
-            num = nums[i]
-            if num in _dict:
-                return [_dict[num], i]
-            _dict[target-num] = i
-        return []
+    def reorderList(self, head: Optional[ListNode]) -> None:
+        """
+        Do not return anything, modify head in-place instead.
+        """
+        slow, fast, start = head, head, head
+        while fast:
+            if fast.next is None or fast.next.next is None:
+                slow = slow.next
+                break
+            slow = slow.next
+            fast = fast.next.next
+        slow = self.reverseList(slow)
+        middle = slow
+        dummy = ListNode()
+        tail = dummy
+        while start != middle:
+            tail.next = start
+            start = start.next
+            tail = tail.next
+            tail.next = slow
+            if slow is None:
+                break
+            slow = slow.next
+            tail = tail.next
+        return dummy.next
 ```
 
 
-### 3. [Leetcode 1](https://leetcode.com/problems/two-sum/description/) : Two Sum
+### 22. [Leetcode 19](https://leetcode.com/problems/remove-nth-node-from-end-of-list/description/) : Remove Nth Node From End of List
 <pre>
-Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
-
-You may assume that each input would have exactly one solution, and you may not use the same element twice.
-
-You can return the answer in any order.
-
+Given the head of a linked list, remove the nth node from the end of the list and return its head.
 
 Example 1:
 
-Input: nums = [2,7,11,15], target = 9
-Output: [0,1]
-Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
-
+Input: head = [1,2,3,4,5], n = 2
+Output: [1,2,3,5]
 Example 2:
 
-Input: nums = [3,2,4], target = 6
-Output: [1,2]
+Input: head = [1], n = 1
+Output: []
 Example 3:
 
-Input: nums = [3,3], target = 6
-Output: [0,1]
+Input: head = [1,2], n = 1
+Output: [1]
  
 
 Constraints:
 
-2 <= nums.length <= 104
--109 <= nums[i] <= 109
--109 <= target <= 109
-Only one valid answer exists.
+The number of nodes in the list is sz.
+1 <= sz <= 30
+0 <= Node.val <= 100
+1 <= n <= sz
  
 
-Follow-up: Can you come up with an algorithm that is less than O(n2) time complexity? 
+Follow up: Could you do this in one pass? 
 </pre>
 
 Solution:
 
 ```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
 class Solution:
-    def twoSum(self, nums: List[int], target: int) -> List[int]:
-        _dict = {}
-        for i in range(len(nums)):
-            num = nums[i]
-            if num in _dict:
-                return [_dict[num], i]
-            _dict[target-num] = i
-        return []
+    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
+        dummy = ListNode(0, head)
+        slow, fast = dummy, head
+        while n > 0 and fast:
+            fast = fast.next
+            n -= 1
+        while fast:
+            slow = slow.next
+            fast = fast.next
+        slow.next = slow.next.next
+        return dummy.next
 ```
 
 
-### 3. [Leetcode 1](https://leetcode.com/problems/two-sum/description/) : Two Sum
+### 23. [Leetcode 141](https://leetcode.com/problems/linked-list-cycle/description/) : Linked List Cycle
 <pre>
-Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
+Given head, the head of a linked list, determine if the linked list has a cycle in it.
 
-You may assume that each input would have exactly one solution, and you may not use the same element twice.
+There is a cycle in a linked list if there is some node in the list that can be reached again by continuously following the next pointer. Internally, pos is used to denote the index of the node that tail's next pointer is connected to. Note that pos is not passed as a parameter.
 
-You can return the answer in any order.
+Return true if there is a cycle in the linked list. Otherwise, return false.
 
+ 
 
 Example 1:
 
-Input: nums = [2,7,11,15], target = 9
-Output: [0,1]
-Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
 
+Input: head = [3,2,0,-4], pos = 1
+Output: true
+Explanation: There is a cycle in the linked list, where the tail connects to the 1st node (0-indexed).
 Example 2:
 
-Input: nums = [3,2,4], target = 6
-Output: [1,2]
+
+Input: head = [1,2], pos = 0
+Output: true
+Explanation: There is a cycle in the linked list, where the tail connects to the 0th node.
 Example 3:
 
-Input: nums = [3,3], target = 6
-Output: [0,1]
+
+Input: head = [1], pos = -1
+Output: false
+Explanation: There is no cycle in the linked list.
  
 
 Constraints:
 
-2 <= nums.length <= 104
--109 <= nums[i] <= 109
--109 <= target <= 109
-Only one valid answer exists.
+The number of the nodes in the list is in the range [0, 104].
+-105 <= Node.val <= 105
+pos is -1 or a valid index in the linked-list.
  
 
-Follow-up: Can you come up with an algorithm that is less than O(n2) time complexity? 
+Follow up: Can you solve it using O(1) (i.e. constant) memory?
 </pre>
 
 Solution:
 
 ```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
 class Solution:
-    def twoSum(self, nums: List[int], target: int) -> List[int]:
-        _dict = {}
-        for i in range(len(nums)):
-            num = nums[i]
-            if num in _dict:
-                return [_dict[num], i]
-            _dict[target-num] = i
-        return []
+    def hasCycle(self, head: Optional[ListNode]) -> bool:
+        if head == None:
+            return False
+        slow, fast = head, head
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+            if slow == fast:
+                return True
+        return False
 ```
+
+### 24. [Leetcode 23](https://leetcode.com/problems/merge-k-sorted-lists/description/) : Merge k Sorted Lists
+
+<pre>
+You are given an array of k linked-lists lists, each linked-list is sorted in ascending order.
+
+Merge all the linked-lists into one sorted linked-list and return it.
+
+ 
+
+Example 1:
+
+Input: lists = [[1,4,5],[1,3,4],[2,6]]
+Output: [1,1,2,3,4,4,5,6]
+Explanation: The linked-lists are:
+[
+  1->4->5,
+  1->3->4,
+  2->6
+]
+merging them into one sorted list:
+1->1->2->3->4->4->5->6
+Example 2:
+
+Input: lists = []
+Output: []
+Example 3:
+
+Input: lists = [[]]
+Output: []
+ 
+
+Constraints:
+
+k == lists.length
+0 <= k <= 104
+0 <= lists[i].length <= 500
+-104 <= lists[i][j] <= 104
+lists[i] is sorted in ascending order.
+The sum of lists[i].length will not exceed 104
+</pre>
+
+Solution:
+
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
+        if len(lists) == 0:
+            return None
+        def mergeTwoLists(node1, node2):
+            merged = ListNode()
+            tail = merged
+            while node1 and node2:
+                if node1.val < node2.val:
+                    tail.next = node1
+                    node1 = node1.next
+                else:
+                    tail.next = node2
+                    node2 = node2.next
+                tail = tail.next
+            if node1:
+                tail.next = node1
+            if node2:
+                tail.next = node2
+            return merged.next
+
+        while len(lists) > 1:
+            mergedList = []
+            for i in range(0, len(lists), 2):
+                list1 = lists[i]
+                list2 = lists[i+1] if (i+1) < len(lists) else None
+                mergedList.append(mergeTwoLists(list1, list2))
+            lists = mergedList
+        return lists[0]
+```
+
+## Trees
+
+### 3. [Leetcode 1](https://leetcode.com/problems/two-sum/description/) : Two Sum
+
+<pre>
+
+</pre>
+
+Solution:
+
+```python
+
+
+```
+
+
+### 3. [Leetcode 1](https://leetcode.com/problems/two-sum/description/) : Two Sum
+
+<pre>
+
+</pre>
+
+Solution:
+
+```python
+
+
+```
+
+
+### 3. [Leetcode 1](https://leetcode.com/problems/two-sum/description/) : Two Sum
+
+<pre>
+
+</pre>
+
+Solution:
+
+```python
+
+
+```
+
+
+### 3. [Leetcode 1](https://leetcode.com/problems/two-sum/description/) : Two Sum
+
+<pre>
+
+</pre>
+
+Solution:
+
+```python
+
+
+```
+
+
+### 3. [Leetcode 1](https://leetcode.com/problems/two-sum/description/) : Two Sum
+
+<pre>
+
+</pre>
+
+Solution:
+
+```python
+
+
+```
+
+
+### 3. [Leetcode 1](https://leetcode.com/problems/two-sum/description/) : Two Sum
+
+<pre>
+
+</pre>
+
+Solution:
+
+```python
+
+
+```
+
+
+### 3. [Leetcode 1](https://leetcode.com/problems/two-sum/description/) : Two Sum
+
+<pre>
+
+</pre>
+
+Solution:
+
+```python
+
+
+```
+
+
+### 3. [Leetcode 1](https://leetcode.com/problems/two-sum/description/) : Two Sum
+
+<pre>
+
+</pre>
+
+Solution:
+
+```python
+
+
+```
+
+
+### 3. [Leetcode 1](https://leetcode.com/problems/two-sum/description/) : Two Sum
+
+<pre>
+
+</pre>
+
+Solution:
+
+```python
+
+
+```
+
+
+### 3. [Leetcode 1](https://leetcode.com/problems/two-sum/description/) : Two Sum
+
+<pre>
+
+</pre>
+
+Solution:
+
+```python
+
+
+```
+
+
+### 3. [Leetcode 1](https://leetcode.com/problems/two-sum/description/) : Two Sum
+
+<pre>
+
+</pre>
+
+Solution:
+
+```python
+
+
+```
+
+
+### 3. [Leetcode 1](https://leetcode.com/problems/two-sum/description/) : Two Sum
+
+<pre>
+
+</pre>
+
+Solution:
+
+```python
+
+
+```
+
+
+### 3. [Leetcode 1](https://leetcode.com/problems/two-sum/description/) : Two Sum
+
+<pre>
+
+</pre>
+
+Solution:
+
+```python
+
+
+```
+
+
+### 3. [Leetcode 1](https://leetcode.com/problems/two-sum/description/) : Two Sum
+
+<pre>
+
+</pre>
+
+Solution:
+
+```python
+
+
+```
+
+
+### 3. [Leetcode 1](https://leetcode.com/problems/two-sum/description/) : Two Sum
+
+<pre>
+
+</pre>
+
+Solution:
+
+```python
+
+
+```
+
+
+### 3. [Leetcode 1](https://leetcode.com/problems/two-sum/description/) : Two Sum
+
+<pre>
+
+</pre>
+
+Solution:
+
+```python
+
+
+```
+
+
+### 3. [Leetcode 1](https://leetcode.com/problems/two-sum/description/) : Two Sum
+
+<pre>
+
+</pre>
+
+Solution:
+
+```python
+
+
+```
+
+
+### 3. [Leetcode 1](https://leetcode.com/problems/two-sum/description/) : Two Sum
+
+<pre>
+
+</pre>
+
+Solution:
+
+```python
+
+
+```
+
+
+### 3. [Leetcode 1](https://leetcode.com/problems/two-sum/description/) : Two Sum
+
+<pre>
+
+</pre>
+
+Solution:
+
+```python
+
+
+```
+
+
+### 3. [Leetcode 1](https://leetcode.com/problems/two-sum/description/) : Two Sum
+
+<pre>
+
+</pre>
+
+Solution:
+
+```python
+
+
+```
+
+### 3. [Leetcode 1](https://leetcode.com/problems/two-sum/description/) : Two Sum
+
+<pre>
+
+</pre>
+
+Solution:
+
+```python
+
+
+```
+
+
+### 3. [Leetcode 1](https://leetcode.com/problems/two-sum/description/) : Two Sum
+
+<pre>
+
+</pre>
+
+Solution:
+
+```python
+
+
+```
+
+
+### 3. [Leetcode 1](https://leetcode.com/problems/two-sum/description/) : Two Sum
+
+<pre>
+
+</pre>
+
+Solution:
+
+```python
+
+
+```
+
+
+### 3. [Leetcode 1](https://leetcode.com/problems/two-sum/description/) : Two Sum
+
+<pre>
+
+</pre>
+
+Solution:
+
+```python
+
+
+```
+
+
+### 3. [Leetcode 1](https://leetcode.com/problems/two-sum/description/) : Two Sum
+
+<pre>
+
+</pre>
+
+Solution:
+
+```python
+
+
+```
+
+
+### 3. [Leetcode 1](https://leetcode.com/problems/two-sum/description/) : Two Sum
+
+<pre>
+
+</pre>
+
+Solution:
+
+```python
+
+
+```
+
+
+### 3. [Leetcode 1](https://leetcode.com/problems/two-sum/description/) : Two Sum
+
+<pre>
+
+</pre>
+
+Solution:
+
+```python
+
+
+```
+
+
+### 3. [Leetcode 1](https://leetcode.com/problems/two-sum/description/) : Two Sum
+
+<pre>
+
+</pre>
+
+Solution:
+
+```python
+
+
+```
+
+### 3. [Leetcode 1](https://leetcode.com/problems/two-sum/description/) : Two Sum
+
+<pre>
+
+</pre>
+
+Solution:
+
+```python
+
+
+```
+
+
+### 3. [Leetcode 1](https://leetcode.com/problems/two-sum/description/) : Two Sum
+
+<pre>
+
+</pre>
+
+Solution:
+
+```python
+
+
+```
+
+
+### 3. [Leetcode 1](https://leetcode.com/problems/two-sum/description/) : Two Sum
+
+<pre>
+
+</pre>
+
+Solution:
+
+```python
+
+
+```
+
+
+### 3. [Leetcode 1](https://leetcode.com/problems/two-sum/description/) : Two Sum
+
+<pre>
+
+</pre>
+
+Solution:
+
+```python
+
+
+```
+
+
+### 3. [Leetcode 1](https://leetcode.com/problems/two-sum/description/) : Two Sum
+
+<pre>
+
+</pre>
+
+Solution:
+
+```python
+
+
+```
+
